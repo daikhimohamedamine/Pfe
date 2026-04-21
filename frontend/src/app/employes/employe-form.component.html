@@ -54,7 +54,7 @@
         <div class="form-actions">
           <button mat-button type="button" (click)="cancel()">Annuler</button>
           <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || saving">
-            <mat-spinner diameter="20" *ngIf="saving"></mat-spinner>
+            <mat-progress-spinner diameter="20" *ngIf="saving"></mat-progress-spinner>
             <span *ngIf="!saving">{{ isEdit ? 'Modifier' : 'Créer' }}</span>
           </button>
         </div>

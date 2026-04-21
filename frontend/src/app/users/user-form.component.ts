@@ -27,6 +27,12 @@ export class UserFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEdit = true;
+      this.userId = +id;
+    }
+
     this.form = this.fb.group({
       userName: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', this.isEdit ? [] : [Validators.required, Validators.minLength(6)]],
@@ -34,12 +40,7 @@ export class UserFormComponent implements OnInit {
       enabled: [true]
     });
 
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.isEdit = true;
-      this.userId = +id;
-      this.form.get('password')?.clearValidators();
-      this.form.get('password')?.updateValueAndValidity();
+    if (id && this.userId) {
       this.loading = true;
       this.service.getById(this.userId).subscribe({
         next: (d) => { this.form.patchValue(d); this.loading = false; },
