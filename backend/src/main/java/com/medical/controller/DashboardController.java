@@ -1,6 +1,7 @@
 package com.medical.controller;
 
 import com.medical.repository.*;
+import com.medical.service.RappelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,9 @@ public class DashboardController {
 
     @Autowired
     private RappelRepository rappelRepository;
+
+    @Autowired
+    private RappelService rappelService;
 
     @Autowired
     private MedecinRepository medecinRepository;
@@ -44,7 +48,7 @@ public class DashboardController {
         stats.put("totalExamens", examenRepository.count());
         stats.put("totalOrdonnances", ordonnanceRepository.count());
         stats.put("totalActes", acteRepository.count());
-        stats.put("rappelsPending", rappelRepository.findByStatus("PENDING").size());
+        stats.put("rappelsPending", rappelService.countPending());
         stats.put("rappelsTotal", rappelRepository.count());
 
         return ResponseEntity.ok(stats);

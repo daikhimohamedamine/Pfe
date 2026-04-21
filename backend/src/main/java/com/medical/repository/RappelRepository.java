@@ -9,4 +9,5 @@ import java.util.List;
 public interface RappelRepository extends JpaRepository<Rappel, Long> {
     List<Rappel> findByEmploye_Id(Long employeId);
     List<Rappel> findByStatus(String status);
+    long countByStatus(String status);
 }

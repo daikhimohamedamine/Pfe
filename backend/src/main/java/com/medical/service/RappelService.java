@@ -53,6 +53,6 @@ public class RappelService {
     }
 
     public long countPending() {
-        return rappelRepository.findByStatus("PENDING").size();
+        return rappelRepository.countByStatus("PENDING");
     }
 }
