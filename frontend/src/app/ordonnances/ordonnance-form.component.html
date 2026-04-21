@@ -1,0 +1,41 @@
+<div class="form-container">
+  <div class="page-header"><h1>{{ isEdit ? 'Modifier l\'ordonnance' : 'Nouvelle ordonnance' }}</h1></div>
+  <mat-card class="form-card mat-elevation-z4">
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type">
+              <mat-option *ngFor="let t of types" [value]="t">{{ t }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('type')?.hasError('required')">Type requis</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="dp" formControlName="date">
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp></mat-datepicker>
+            <mat-error *ngIf="form.get('date')?.hasError('required')">Date requise</mat-error>
+          </mat-form-field>
+        </div>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Consultation</mat-label>
+          <mat-select formControlName="consultation">
+            <mat-option *ngFor="let c of consultations" [value]="c">{{ c.date | date:'dd/MM/yyyy' }} — {{ c.type }} — {{ c.employe?.nom }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get('consultation')?.hasError('required')">Consultation requise</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Médicaments prescrits</mat-label>
+          <textarea matInput formControlName="medicaments" rows="4" placeholder="Nom du médicament, dosage, durée..."></textarea>
+          <mat-error *ngIf="form.get('medicaments')?.hasError('required')">Médicaments requis</mat-error>
+        </mat-form-field>
+        <div class="form-actions">
+          <button mat-button type="button" (click)="cancel()">Annuler</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || saving">{{ isEdit ? 'Modifier' : 'Créer' }}</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
